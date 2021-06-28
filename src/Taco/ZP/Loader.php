@@ -3,6 +3,7 @@
 use falkirks\minereset\Mine;
 use falkirks\minereset\MineReset;
 use muqsit\invmenu\InvMenuHandler;
+use pocketmine\block\BlockFactory;
 use pocketmine\entity\Entity;
 use pocketmine\level\generator\GeneratorManager;
 use pocketmine\plugin\PluginBase;
@@ -66,6 +67,8 @@ use Taco\ZP\utils\GangUtils;
 use Taco\ZP\utils\PVPUtils;
 use Taco\ZP\utils\Utils;
 use Taco\ZP\utils\VoucherUtils;
+use Taco\ZP\vanillaShake\block\Hopper;
+use Taco\ZP\vanillaShake\tile\Tile;
 
 class Loader extends PluginBase {
 
@@ -152,7 +155,8 @@ class Loader extends PluginBase {
         "56" => 12,
 		"49:0" => 35,
         "133:0" => 40,
-        "264:0" => 5
+        "264:0" => 5,
+        "81:0" => 25000
     ];
 
     public function onEnable() : void {
@@ -206,6 +210,12 @@ class Loader extends PluginBase {
         self::$farmManager->init();
         $e = new LeaderboardUtils();
         $e->registerLeaderboards();
+        $this->registerBlockStuff();
+    }
+
+    public function registerBlockStuff() : void {
+        Tile::init();
+        BlockFactory::registerBlock(new Hopper(), true);
     }
 
     public function onDisable() : void {

@@ -6,6 +6,7 @@ use Taco\ZP\ce\enchants\ExplosionEnchant;
 use Taco\ZP\ce\enchants\FireEnchant;
 use Taco\ZP\ce\enchants\FlingEnchant;
 use Taco\ZP\ce\enchants\FortuneEnchant;
+use Taco\ZP\ce\enchants\GearsEnchant;
 use Taco\ZP\ce\enchants\GlowingEnchant;
 use Taco\ZP\ce\enchants\HasteEnchantment;
 use Taco\ZP\ce\enchants\SpeedEnchantment;
@@ -45,7 +46,7 @@ class CEManager {
         Enchantment::registerEnchantment(new FortuneEnchant(71,"Fortune",self::RARITY_RARE, self::SLOT_PICKAXE, 0x0,10));
         Enchantment::registerEnchantment(new HasteEnchantment(72,"Haste",self::RARITY_UNCOMMON, self::SLOT_PICKAXE, 0x0,10));
         Enchantment::registerEnchantment(new GlowingEnchant(73,"Glowing",self::RARITY_COMMON, self::SLOT_HEAD, 0x0,1));
-        Enchantment::registerEnchantment(new GlowingEnchant(74,"Gears",self::RARITY_COMMON, self::SLOT_FEET, 0x0,2));
+        Enchantment::registerEnchantment(new GearsEnchant(74,"Gears",self::RARITY_COMMON, self::SLOT_FEET, 0x0,2));
         Enchantment::registerEnchantment(new WitherEnchant(75, "Wither", self::RARITY_UNCOMMON, self::SLOT_SWORD, 0x0, 5));
         Enchantment::registerEnchantment(new FlingEnchant(76, "Fling", self::RARITY_RARE, self::SLOT_SWORD, 0x0, 3));
         Enchantment::registerEnchantment(new FireEnchant(77, "Fire", self::RARITY_MYTHIC, self::SLOT_SWORD, 0x0, 1));

@@ -19,6 +19,7 @@ class ChatGamesTask extends Task {
         "youtube",
         "boost",
         "free",
+        "boomyourbang",
         "tacoissuchacutieomghejustmakesmefeelsogoodwheneverhelogsonanditjustmakesmehappyandsmilewhenevermyfriendtacogetsonline"
     ];
 

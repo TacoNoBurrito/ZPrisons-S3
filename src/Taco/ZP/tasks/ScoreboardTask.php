@@ -20,6 +20,56 @@ class ScoreboardTask extends Task {
         foreach(Loader::getInstance()->getServer()->getOnlinePlayers() as $player) {
             if (!isset(Loader::getInstance()->playerData[$player->getName()])) return;
             $data = Loader::getInstance()->playerData[$player->getName()];
+            $cbt = false;
+            if (Loader::getPVPUtils()->isInCombatTag($player)) {
+                $cbt = true;
+                $this->removeScoreboard($player);
+                $this->showScoreboard($player);
+                $this->clearLines($player);
+                $this->addLine("§l§b§c                   §b", $player);
+                $this->addLine("§l§6Tag-Time", $player);
+                $this->addLine(" - " . Loader::getPVPUtils()->getCombatTime($player), $player);
+                $this->addLine("§l§gCombo", $player);
+                $this->addLine(" - " . Loader::getPVPUtils()->getCombo($player), $player);
+                $this->addLine("§0§b§b                   §a", $player);
+
+            }
+            if (!$cbt) {
+                $money = Loader::getInstance()->economyAPI->myMoney($player);
+                $nextRankPrice = Loader::getUtils()->getPriceOfRank(Loader::getUtils()->n2l(Loader::getUtils()->l2n($data["rank"]) + 1), $data["prestige"]);
+                if (Loader::getUtils()->l2n($data["rank"]) + 1 > 26) $nextRankPrice = "/prestige";
+                $nextRankPercentage = "";
+                if ($nextRankPercentage !== "/prestige") {
+                    $nextRankPercentage = (string)((float)($money / $nextRankPrice) * 100) . "%";
+                    if (((float)($money / $nextRankPrice) * 100) > 100) $nextRankPercentage = "100.00";
+                }
+                if ($nextRankPercentage == "") {
+                    $fullString = "/prestige";
+                } else {
+                    $n = $nextRankPrice - $money;
+                    if ($n < 0) $n = 0;
+                    $fullString = "$" . Loader::getUtils()->intToPrefix((int)$n) . " (" . round($nextRankPercentage, 2) . "%)";
+                }
+                $this->removeScoreboard($player);
+                $this->showScoreboard($player);
+                $this->clearLines($player);
+                $this->addLine("§l§b§c                   §b", $player);
+                $this->addLine("§l§aBalance", $player);
+                $this->addLine("§f$" . Loader::getUtils()->intToPrefix($money), $player);
+                $this->addLine("§a§l§b           ", $player);
+                $this->addLine("§l§5Sell Booster", $player);
+                $this->addLine("§f" . $data["multiplier"] . "x", $player);
+                $this->addLine("§l§o§d      ", $player);
+                $this->addLine("§l§4Rank", $player);
+                $this->addLine("§l§f" . $data["rank"] . " §r§8[§l§7P" . $data["prestige"] . "§r§8]", $player);
+                $this->addLine("§l§o§d§a       ", $player);
+                $this->addLine("§l§6Next Rankup", $player);
+                $this->addLine("§f" . $fullString, $player);
+                $this->addLine("§l§d§b§0     ", $player);
+                $this->addLine("§l§3Tokens", $player);
+                $this->addLine("§f" . $data["tokens"], $player);
+            }
+
             if (Loader::getEventManager()->time > 1) {
                 $timeLeft = Utils::intToString(600 - Loader::getEventManager()->time);
                 $pk = new TextPacket();
@@ -35,51 +85,6 @@ class ScoreboardTask extends Task {
                 $pk->message = "§l§dK§bo§dT§bH §r§bCapping: §d$capping §r§7| §bTime: §d$cappingTime/100";
                 $player->dataPacket($pk);
             }
-            if (Loader::getPVPUtils()->isInCombatTag($player)) {
-                $this->removeScoreboard($player);
-                $this->showScoreboard($player);
-                $this->clearLines($player);
-                $this->addLine("§l§b§c                   §b", $player);
-                $this->addLine("§l§6Tag-Time", $player);
-                $this->addLine(" - ".Loader::getPVPUtils()->getCombatTime($player), $player);
-                $this->addLine("§l§gCombo", $player);
-                $this->addLine(" - ".Loader::getPVPUtils()->getCombo($player), $player);
-                $this->addLine("§0§b§b                   §a", $player);
-                return;
-            }
-            $money = Loader::getInstance()->economyAPI->myMoney($player);
-            $nextRankPrice = Loader::getUtils()->getPriceOfRank(Loader::getUtils()->n2l(Loader::getUtils()->l2n($data["rank"])+1), $data["prestige"]);
-            if (Loader::getUtils()->l2n($data["rank"])+1 >26) $nextRankPrice = "/prestige";
-            $nextRankPercentage = "";
-            if ($nextRankPercentage !== "/prestige") {
-                $nextRankPercentage = (string)((float)($money/$nextRankPrice) * 100)."%";
-                if (((float)($money/$nextRankPrice) * 100) > 100) $nextRankPercentage = "100.00";
-            }
-            if ($nextRankPercentage == "") {
-                $fullString = "/prestige";
-            } else {
-                $n = $nextRankPrice-$money;
-                if ($n < 0) $n = 0;
-                $fullString = "$".Loader::getUtils()->intToPrefix((int)$n)." (".round($nextRankPercentage, 2)."%)";
-            }
-            $this->removeScoreboard($player);
-            $this->showScoreboard($player);
-            $this->clearLines($player);
-            $this->addLine("§l§b§c                   §b", $player);
-            $this->addLine("§l§aBalance", $player);
-            $this->addLine("§f$".Loader::getUtils()->intToPrefix($money), $player);
-            $this->addLine("§a§l§b           ", $player);
-            $this->addLine("§l§5Sell Booster", $player);
-            $this->addLine("§f".$data["multiplier"]."x", $player);
-            $this->addLine("§l§o§d      ", $player);
-            $this->addLine("§l§4Rank", $player);
-            $this->addLine("§l§f".$data["rank"]." §r§8[§l§7P".$data["prestige"]."§r§8]", $player);
-            $this->addLine("§l§o§d§a       ", $player);
-            $this->addLine("§l§6Next Rankup", $player);
-            $this->addLine("§f".$fullString, $player);
-            $this->addLine("§l§d§b§0     ", $player);
-            $this->addLine("§l§3Tokens", $player);
-            $this->addLine("§f".$data["tokens"], $player);
         }
     }
 
