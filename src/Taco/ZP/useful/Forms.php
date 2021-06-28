@@ -1,17 +1,23 @@
 <?php namespace Taco\ZP\useful;
 
+use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\item\Armor;
 use pocketmine\item\Durable;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\Item;
+use pocketmine\item\ItemIds;
 use pocketmine\item\Sword;
 use pocketmine\item\Tool;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat as TF;
 use Taco\ZP\Loader;
+use function exp;
+use function explode;
+use function is_numeric;
 
 class Forms {
 
@@ -411,6 +417,95 @@ class Forms {
         $form->addButton("Gold Rank\n30 Vote Points");
         $form->addButton("Diamond Rank\n40 Vote Points");
         $form->addButton("Close Menu");
+        $player->sendForm($form);
+    }
+
+    public function openShopForm1(Player $player) : void {
+        $form = new SimpleForm(function(Player $player, $data = null) {
+            switch ($data) {
+
+                case 0:
+                    $this->openShopCategory($player, "Farming");
+                    break;
+
+                default:
+
+            }
+        });
+        $form->setTitle("ZPrisons Shop");
+        $form->setContent("Choose a category.");
+        $form->addButton("Farming");
+        $form->addButton("Close");
+        $player->sendForm($form);
+    }
+
+    public array $categories = [
+        "Farming" => [
+            "81:0" => [
+                "name" => "Cactus",
+                "price" => 100000
+            ],
+            "12:0" => [
+                "name" => "Sand",
+                "price" => 5000
+            ],
+            "9:0" => [
+                "name" => "Water",
+                "price" => 2500
+            ],
+            "410:0" => [
+                "name" => "Hopper",
+                "price" => 5000
+            ]
+        ]
+    ];
+
+    public function openShopCategory(Player $player, string $category) : void {
+        $ids = [];
+        foreach ($this->categories[$category] as $id => $info) {
+            $ids[] = $id;
+        }
+        $form = new SimpleForm(function(Player $player, $data = null) use ($category, $ids) {
+            if (empty($ids[$data])) return;
+            if (!isset($this->categories[$category][$ids[$data]])) return;
+            $info = $this->categories[$category][$ids[$data]];
+            $price = $info["price"];
+            $this->buyItemForm($player, $ids[$data], $price);
+        });
+        $form->setTitle($category);
+        $form->setContent("Choose a option to buy");
+        foreach ($ids as $id) {
+            $info = $this->categories[$category][$id];
+            $form->addButton("{$info["name"]}\n$".$info["price"]);
+        }
+        $form->addButton("Close");
+        $player->sendForm($form);
+    }
+
+    public function buyItemForm(Player $player, string $id, int $price) : void {
+        $form = new CustomForm(function (Player $player, $data = null) use ($price, $id) : void {
+            if($data === null) {
+                return;
+            }
+            if (!is_numeric($data[0])) {
+                $player->sendMessage("§cPlease enter a number.");
+                return;
+            }
+            $stripped = explode(":", $id);
+            $amount = (int)$data[0];
+            $price = $price * $amount;
+            $money = Loader::getInstance()->economyAPI->myMoney($player);
+            if ($money >= $price) {
+                Loader::getInstance()->economyAPI->reduceMoney($player, $price);
+                $item = Item::get($stripped[0], $stripped[1], $amount);
+                $player->getInventory()->addItem($item);
+                $player->sendMessage("§aSuccessfully purchased.");
+            } else {
+                $player->sendMessage("§cYou do not have enough money to purchase that.");
+            }
+        });
+        $form->setTitle("Buy Form");
+        $form->addInput("Amount", "64", "64");
         $player->sendForm($form);
     }
 

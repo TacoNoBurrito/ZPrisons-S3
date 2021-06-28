@@ -11,6 +11,7 @@ use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as TF;
 use Taco\ZP\ce\CEManager;
 use Taco\ZP\commands\BanCommand;
+use Taco\ZP\commands\BuilderModeCommand;
 use Taco\ZP\commands\CECommand;
 use Taco\ZP\commands\FixCommand;
 use Taco\ZP\commands\GangCommand;
@@ -26,6 +27,7 @@ use Taco\ZP\commands\PrestigeCommand;
 use Taco\ZP\commands\RankupCommand;
 use Taco\ZP\commands\ReportCommand;
 use Taco\ZP\commands\SellCommand;
+use Taco\ZP\commands\ShopCommand;
 use Taco\ZP\commands\SpawnCommand;
 use Taco\ZP\commands\TagsCommand;
 use Taco\ZP\commands\UpgradeMenuCommand;
@@ -156,7 +158,7 @@ class Loader extends PluginBase {
 		"49:0" => 35,
         "133:0" => 40,
         "264:0" => 5,
-        "81:0" => 25000
+        "81:0" => 75000
     ];
 
     public function onEnable() : void {
@@ -262,7 +264,9 @@ class Loader extends PluginBase {
             new PardonCommand($this),
             new ReportCommand($this),
             new VotePointsCommand($this),
-            new VanishCommand($this)
+            new VanishCommand($this),
+            new BuilderModeCommand($this),
+            new ShopCommand($this)
         ]);
     }
 
