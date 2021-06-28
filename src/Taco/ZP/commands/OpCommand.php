@@ -39,7 +39,7 @@ class OpCommand extends PluginCommand {
                             Loader::getInstance()->globalMute = false;
                         } else {
                             Loader::getInstance()->getServer()->broadcastMessage("System >> Global Mute Has Commenced.");
-                            Loader::getInstance()->globalMute = false;
+                            Loader::getInstance()->globalMute = true;
                         }
                         break;
                     case "givecrate":

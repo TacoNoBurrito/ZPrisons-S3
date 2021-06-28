@@ -443,7 +443,7 @@ class Forms {
         "Farming" => [
             "81:0" => [
                 "name" => "Cactus",
-                "price" => 750000
+                "price" => 50000
             ],
             "12:0" => [
                 "name" => "Sand",
@@ -456,6 +456,10 @@ class Forms {
             "410:0" => [
                 "name" => "Hopper",
                 "price" => 5000
+            ],
+            "174:0" => [
+                "name" => "Packed Ice",
+                "price" => 2500
             ]
         ]
     ];
