@@ -168,6 +168,7 @@ class EventListener implements Listener {
             if ($player instanceof Player and $damager instanceof Player) {
                 if ($player->isOp()) {
                     $event->setCancelled(true);
+                    if ($player->getLevel()->getName() == "plots") return;
                     Loader::getPVPUtils()->spawnDamageEntity($damager, $player, TF::GOLD."Immortal Object");
                     return;
                 }

@@ -9,12 +9,12 @@ use Taco\ZP\ce\types\ArmorToggleEC;
 class GearsEnchant extends ArmorToggleEC {
 
     public function onEquip(Player $player, Item $item) : void {
-        $ins = new EffectInstance(Effect::getEffect(Effect::SPEED), INT32_MAX, $item->getEnchantmentLevel(70)-1);
+        $ins = new EffectInstance(Effect::getEffect(Effect::SPEED), INT32_MAX, $item->getEnchantmentLevel(74)-1);
         $player->addEffect($ins);
     }
 
     public function onDequip(Player $player, Item $item) : void {
-        if ($player->hasEffect(Effect::NIGHT_VISION)) $player->removeEffect(Effect::NIGHT_VISION);
+        if ($player->hasEffect(Effect::SPEED)) $player->removeEffect(Effect::SPEED);
     }
 
 }

@@ -182,7 +182,7 @@ class Loader extends PluginBase {
         self::$chatGames->startGames();
         self::$forms = new Forms();
         CEManager::init();
-        $this->unregisterCommands(["kill"]);
+        $this->unregisterCommands(["kill", "me"]);
         $this->areaDB = new Config($this->getDataFolder()."areas.yml", Config::YAML);
         $areas = (array)$this->areaDB->getAll();
         $this->areas = $areas;

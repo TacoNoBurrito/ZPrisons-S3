@@ -473,14 +473,14 @@ class Forms {
             if (empty($ids[$data])) return;
             if (!isset($this->categories[$category][$ids[$data]])) return;
             $info = $this->categories[$category][$ids[$data]];
-            $price = $info["price"];
+            $price = $info["price"] * (float)Loader::getInstance()->playerData[$player->getName()]["multiplier"];
             $this->buyItemForm($player, $ids[$data], $price);
         });
         $form->setTitle($category);
         $form->setContent("Choose a option to buy");
         foreach ($ids as $id) {
             $info = $this->categories[$category][$id];
-            $form->addButton("{$info["name"]}\n$".$info["price"]);
+            $form->addButton("{$info["name"]}\n$".$info["price"]* (float)Loader::getInstance()->playerData[$player->getName()]["multiplier"]);
         }
         $form->addButton("Close");
         $player->sendForm($form);

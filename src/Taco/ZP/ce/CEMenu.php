@@ -119,7 +119,7 @@ class CEMenu {
                 "type" => "helmet"
             ],
             9 => [
-                "name" => "Speed",
+                "name" => "Gears",
                 "id" => ItemIds::SUGAR,
                 "price" => 2500,
                 "maxLevel" => 2,
