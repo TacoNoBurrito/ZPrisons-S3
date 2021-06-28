@@ -38,7 +38,9 @@ class SavePlayer extends AsyncTask {
 
     private int $vp = 0;
 
-    public function __construct(string $player, int $kills, int $deaths, int $killstreak, string $rank, int $prestige, int $tokens, string $multiplier, string $dataFolder, string $tag, string $gang, bool $isMuted, string $muteReason, bool $isBanned, string $banReason, int $vp) {
+    private int $blocksBroken = 0;
+
+    public function __construct(string $player, int $kills, int $deaths, int $killstreak, string $rank, int $prestige, int $tokens, string $multiplier, string $dataFolder, string $tag, string $gang, bool $isMuted, string $muteReason, bool $isBanned, string $banReason, int $vp, int $bb) {
         $this->player = $player;
         $this->kills = $kills;
         $this->deaths = $deaths;
@@ -55,6 +57,7 @@ class SavePlayer extends AsyncTask {
         $this->muteReason = $muteReason;
         $this->banReason = $banReason;
         $this->vp = $vp;
+        $this->blocksBroken = $bb;
     }
 
     public function onRun() : void {
@@ -101,6 +104,8 @@ class SavePlayer extends AsyncTask {
     {
         Loader::getInstance()->votePointDB->set($this->player, $this->vp);
         Loader::getInstance()->votePointDB->save();
+        Loader::getInstance()->blocksBroken->set($this->player, $this->blocksBroken);
+        Loader::getInstance()->blocksBroken->save();
     }
 
 }

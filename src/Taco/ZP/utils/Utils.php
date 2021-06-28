@@ -158,7 +158,7 @@ class Utils {
     public function saveData(Player $player) : void {
         $info = Loader::getInstance()->playerData[$player->getName()];
         $punish = Loader::getInstance()->punishmentData[$player->getName()];
-        Loader::getInstance()->getServer()->getAsyncPool()->submitTask(new SavePlayer($player->getName(), $info["kills"], $info["deaths"], $info["killstreak"], $info["rank"], $info["prestige"], $info["tokens"], $info["multiplier"], Loader::getInstance()->getDataFolder(), $info["tag"], $info["gang"], $punish["isMuted"], $punish["muteReason"], $punish["isBanned"], $punish["banReason"], $info["vp"]));
+        Loader::getInstance()->getServer()->getAsyncPool()->submitTask(new SavePlayer($player->getName(), $info["kills"], $info["deaths"], $info["killstreak"], $info["rank"], $info["prestige"], $info["tokens"], $info["multiplier"], Loader::getInstance()->getDataFolder(), $info["tag"], $info["gang"], $punish["isMuted"], $punish["muteReason"], $punish["isBanned"], $punish["banReason"], $info["vp"], $info["blocksBroken"]));
     }
 
 

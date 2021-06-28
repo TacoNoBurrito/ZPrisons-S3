@@ -58,6 +58,7 @@ use Taco\ZP\tasks\CustomEnchantTask;
 use Taco\ZP\tasks\EntityClearTask;
 use Taco\ZP\tasks\NametagTask;
 use Taco\ZP\tasks\ScoreboardTask;
+use Taco\ZP\tasks\ScoreTagTask;
 use Taco\ZP\tasks\TimeTask;
 use Taco\ZP\useful\Forms;
 use Taco\ZP\useful\generator\VoidGenerator;
@@ -117,6 +118,8 @@ class Loader extends PluginBase {
     public Config $gangDB;
 
     public Config $votePointDB;
+
+    public Config $blocksBroken;
 
     public array $areas = [];
 
@@ -184,6 +187,7 @@ class Loader extends PluginBase {
         $areas = (array)$this->areaDB->getAll();
         $this->areas = $areas;
         $this->gangDB = new Config($this->getDataFolder()."gangs.yml", Config::YAML);
+        $this->blocksBroken = new Config($this->getDataFolder()."blocks.yml", Config::YAML);
         $this->gangs = (array)$this->gangDB->getAll();
         $this->votePointDB = new Config($this->getDataFolder()."vp.yml", Config::YAML);
         foreach (array_diff(scandir($this->getServer()->getDataPath() . "worlds"), ["..", "."]) as $levelName) {
@@ -237,6 +241,7 @@ class Loader extends PluginBase {
         $this->getScheduler()->scheduleRepeatingTask(new EntityClearTask(), 20);
         $this->getScheduler()->scheduleRepeatingTask(new TimeTask(), 20);
         $this->getScheduler()->scheduleRepeatingTask(new CustomEnchantTask(), 20);
+        $this->getScheduler()->scheduleRepeatingTask(new ScoreTagTask(), 20 * 25);
         $this->getScheduler()->scheduleRepeatingTask(new AutoSaveTask(),  900 * 20);
     }
 

@@ -80,6 +80,11 @@ class LoadPlayer extends AsyncTask {
         } else {
             $vp = 0;
         }
+        if (Loader::getInstance()->blocksBroken->exists($this->player)) {
+            $bb = Loader::getInstance()->blocksBroken->get($this->player);
+        } else {
+            $bb = 0;
+        }
         Loader::getInstance()->playerData[$this->player] = [
             "kills" => $this->kills,
             "deaths" => $this->deaths,
@@ -90,7 +95,8 @@ class LoadPlayer extends AsyncTask {
             "multiplier" => $this->multiplier,
             "tag" => $this->tag,
             "gang" => $this->gang,
-            "vp" => $vp
+            "vp" => $vp,
+            "blocksBroken" => $bb
         ];
     }
 
