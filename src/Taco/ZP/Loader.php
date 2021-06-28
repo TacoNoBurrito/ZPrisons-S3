@@ -161,7 +161,7 @@ class Loader extends PluginBase {
 		"49:0" => 35,
         "133:0" => 40,
         "264:0" => 5,
-        "81:0" => 75000
+        "81:0" => 10000
     ];
 
     public function onEnable() : void {

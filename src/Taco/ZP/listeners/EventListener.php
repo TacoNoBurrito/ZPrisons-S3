@@ -382,6 +382,7 @@ class EventListener implements Listener {
                 }
                 $dropss = $newDrops;
             }
+            Loader::getInstance()->playerData[$player->getName()]["blocksBroken"] += 1;
             $event->setXpDropAmount(0);
             foreach ($dropss as $it) {
                 if (!$player->getInventory()->canAddItem($it)) {
