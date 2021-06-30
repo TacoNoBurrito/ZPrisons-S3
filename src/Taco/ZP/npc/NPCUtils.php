@@ -11,7 +11,7 @@ class NPCUtils {
         TF::BOLD.TF::GOLD."Blackmarket".TF::EOL.TF::RESET.TF::GRAY.TF::ITALIC."Tap me to open the blackmarket!" => [
             "is-Console" => true,
             "command" => "opc sendbm {player}",
-            "pos" => "291:67:235"
+            "pos" => "317:137:385"
         ]
     ];
 

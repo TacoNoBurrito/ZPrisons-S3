@@ -8,30 +8,39 @@ class FloatingTextUtils {
 
     public array $fts = [
         "ft1" => [
-            "x" => 0,
-            "y" => 0,
-            "z" => 0,
+            "x" => 317,
+            "y" => 132,
+            "z" => 355,
             "text" => [
-                "bruh1",
-                "bruh2"
+                "§l§dBLACKMARKET",
+                "§l§fBLACKMARKET"
             ]
         ],
         "ft2" => [
-            "x"  => 257,
-            "y" => 70,
-            "z" => 241,
+            "x"  => 317,
+            "y" => 132,
+            "z" => 345,
             "text" => [
-                "§l§dZ§bPrisons\n§r§bWelcome.",
-                "§l§bZ§dPrisons\n§r§bWelcome."
+                "§l§fPVP",
+                "§l§cPVP"
             ]
         ],
         "f54" => [
-            "x"  => 229,
-            "y" => 71,
-            "z" => 170,
+            "x"  => 322,
+            "y" => 132,
+            "z" => 350,
             "text" => [
-                "§l§cPVP§fMine\n§r§fPvP Is Enabled, Be Careful!",
-                "§l§cPVP§fMine\n§r§fPvP Is Enabled, Be Careful!"
+                "§l§eENCHANTING",
+                "§l§fENCHANTING"
+            ]
+        ],
+        "lf5" => [
+            "x" => 312,
+            "y" => 132,
+            "z" => 350,
+            "text" => [
+                "§l§6CHILL",
+                "§l§fCHILL"
             ]
         ]
     ];

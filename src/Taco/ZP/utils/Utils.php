@@ -14,7 +14,7 @@ class Utils {
 
     public function teleportToSpawn(Player $player) : void {
         $player->teleport(Loader::getInstance()->getServer()->getDefaultLevel()->getSafeSpawn());
-        $player->teleport(new Vector3(257, 73, 255));
+        $player->teleport(new Vector3(317, 132, 350));
     }
 
     public function intToPrefix($input) : string {

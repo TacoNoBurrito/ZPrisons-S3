@@ -141,6 +141,7 @@ class EventListener implements Listener {
         if ($cause instanceof EntityDamageByEntityEvent) {
             $damager = $cause->getDamager();
             if ($damager instanceof Player) {
+                if ($damager->getLevel()->getName() !== "spawn") return;
                 $item = $damager->getInventory()->getItemInHand();
                 if ($item->getId() == 0) $item = "Fist";
                 else $item = $item->getCustomName();

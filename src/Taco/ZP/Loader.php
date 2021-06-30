@@ -263,7 +263,7 @@ class Loader extends PluginBase {
             new CECommand($this),
             new NightVisionCommand($this),
             new PickaxeCommand($this),
-            new BanCommand($this),
+            //new BanCommand($this),
             new MuteCommand($this),
             new KickCommand($this),
             new PardonCommand($this),

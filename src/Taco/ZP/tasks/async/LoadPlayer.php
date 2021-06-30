@@ -65,10 +65,6 @@ class LoadPlayer extends AsyncTask {
     }
 
     public function onCompletion(Server $server) : void {
-        if ($this->isBanned) {
-            $server->getPlayer($this->player)->kick("You are banned!\nReason: ".$this->banReason, false);
-            return;
-        }
         Loader::getInstance()->punishmentData[$this->player] = [
             "isMuted" => $this->isMuted,
             "muteReason" => $this->muteReason,

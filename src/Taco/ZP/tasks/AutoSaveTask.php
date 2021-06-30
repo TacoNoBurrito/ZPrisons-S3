@@ -13,14 +13,14 @@ class AutoSaveTask extends Task {
             $players[] = $player->getName();
         }
         if (count($players) < 1) return;
-        Loader::getInstance()->getServer()->broadcastMessage("\n\n\n\n\nPerforming auto-save. Approximated time: ".(count($players) * 1.5)."s. The server may lag during this time.");
+        Loader::getInstance()->getServer()->broadcastMessage("§cPerforming auto-save. Approximated time: ".(count($players) * 1.5)."s. The server may lag during this time.");
         $i = 1;
         foreach ($players as $player) {
             $playerr = Loader::getInstance()->getServer()->getPlayer($player);
             if ($playerr == null) continue;
             Loader::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(static function(int $currentTick) use ($playerr) : void{
                 if (!$playerr == null) {
-                    $playerr->sendMessage("System >> Your data was backed up.");
+                    $playerr->sendMessage("§cSystem >> Your data was backed up.");
                     Loader::getUtils()->saveData($playerr);
                 }
             }), $i * 20);
