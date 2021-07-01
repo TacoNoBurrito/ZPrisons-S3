@@ -113,7 +113,12 @@ class Utils {
         } else {
             $gang = "";
         }
-        return $gang.TF::RESET.TF::BOLD.TF::GRAY."[".TF::RESET.TF::WHITE.$prisonRank.TF::BOLD.TF::GRAY."] [".TF::WHITE.TF::BOLD."P".$prestige.TF::GRAY."] [".TF::RESET.$rank.TF::BOLD.TF::GRAY."] ".$tag.TF::RESET.TF::WHITE.$player->getName()." » ".TF::GRAY.$message;
+        $chatColor = TF::GRAY;
+        if ($rank == "Diamond") $chatColor=TF::YELLOW;
+        else if ($rank == "Developer") $chatColor=TF::BOLD.TF::AQUA;
+        else if ($rank !== "Guest") $chatColor=TF::WHITE;
+        else $chatColor=TF::GRAY;
+        return $gang.TF::RESET.TF::BOLD.TF::GRAY."[".TF::RESET.TF::WHITE.$prisonRank.TF::BOLD.TF::GRAY."] [".TF::WHITE.TF::BOLD."P".$prestige.TF::GRAY."] [".TF::RESET.$rank.TF::BOLD.TF::GRAY."] ".$tag.TF::RESET.TF::WHITE.$player->getName()." » ".$chatColor.$message;
     }
 
     public function getFormattedRank(string $rank) : string {

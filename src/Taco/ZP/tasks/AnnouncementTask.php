@@ -13,7 +13,8 @@ class AnnouncementTask extends Task {
         "§7[§l§dZ§bPrisons§r§7] §rMake a ticket in the discord to report a hacker!",
         "§7[§l§dZ§bPrisons§r§7] §rClicking 20+ cps can result in a ban!",
         "§7[§l§dZ§bPrisons§r§7] §rApply for staff at our discord! §e".self::discord,
-        "§7[§l§dZ§bPrisons§r§7] §rVote to earn great rewards at §ebit.ly/zpvote"
+        "§7[§l§dZ§bPrisons§r§7] §rVote to earn great rewards at §ebit.ly/zpvote",
+        "§7[§l§dZ§bPrisons§r§7] §rBuy ranks and more at §ezprisons.tebex.io"
     ];
 
     public function onRun(int $currentTick) : void {

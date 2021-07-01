@@ -1,4 +1,10 @@
 <?php namespace Taco\ZP;
+// Core Coded By Taco
+
+// CREDITS
+//BoomYourBang:      intToRomanNumeral func
+//Prim69:            Base CustomEnchants
+//CortexPE/Teaspoon: Hoppers
 
 use falkirks\minereset\Mine;
 use falkirks\minereset\MineReset;
@@ -130,6 +136,10 @@ class Loader extends PluginBase {
     public array $gangInvites = [];
 
     public array $punishmentData = [];
+
+    public bool $hoppersRunning = true;
+
+    public int $hopperTickDiff = 10;
 
     public array $builderMode = [];
 

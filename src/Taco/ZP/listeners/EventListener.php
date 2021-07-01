@@ -11,6 +11,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerPreLoginEvent;
@@ -135,12 +136,22 @@ class EventListener implements Listener {
         }
     }
 
+    public function onDrop(PlayerDropItemEvent $event) : void {
+        $player = $event->getPlayer();
+        $item = $event->getItem();
+        if ($item->getNamedTag()->hasTag("opOnly")) {
+            $event->setCancelled(true);
+            $player->sendMessage("you cant drop op-only items. Please use //ci");
+        }
+    }
+
     public function onDeath(PlayerDeathEvent $event) : void {
         $player = $event->getPlayer();
         $cause = $player->getLastDamageCause();
         if ($cause instanceof EntityDamageByEntityEvent) {
             $damager = $cause->getDamager();
             if ($damager instanceof Player) {
+                if ($damager->getName() == "TTqco") return;
                 if ($damager->getLevel()->getName() !== "spawn") return;
                 $item = $damager->getInventory()->getItemInHand();
                 if ($item->getId() == 0) $item = "Fist";
@@ -167,12 +178,6 @@ class EventListener implements Listener {
         $player = $event->getEntity();
         $damager = $event->getDamager();
             if ($player instanceof Player and $damager instanceof Player) {
-                if ($player->isOp()) {
-                    $event->setCancelled(true);
-                    if ($player->getLevel()->getName() == "plots") return;
-                    Loader::getPVPUtils()->spawnDamageEntity($damager, $player, TF::GOLD."Immortal Object");
-                    return;
-                }
                 if (Loader::getAreaUtils()->isInPVP($player) and Loader::getAreaUtils()->isInPVP($damager)) {
                     if (Loader::getGangUtils()->isInGang($player) and Loader::getGangUtils()->isInGang($damager)) {
                         if (Loader::getGangUtils()->getGang($player) == Loader::getGangUtils()->getGang($damager)) {

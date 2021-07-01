@@ -49,7 +49,7 @@ class FloatingTextUtils {
         foreach($this->fts as $name => $array) {
             $pos = new Vector3($array["x"], $array["y"], $array["z"]);
             Loader::getInstance()->getServer()->getDefaultLevel()->loadChunk($pos->getX() >> 16, $pos->getZ() >> 16);
-            $nbt = Entity::createBaseNBT($pos, null, 0, 0);
+            $nbt = Entity::createBaseNBT($pos->add(0.5, 0, 0.5), null, 0, 0);
             $entity = new FloatingTextEntity(Loader::getInstance()->getServer()->getDefaultLevel(), $nbt, $array["text"]);
             $entity->spawnToAll();
         }

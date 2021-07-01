@@ -35,6 +35,7 @@ declare(strict_types = 1);
 
 namespace Taco\ZP\vanillaShake\tile;
 
+use Taco\ZP\Loader;
 use Taco\ZP\vanillaShake\block\Hopper as HopperBlock;
 use Taco\ZP\vanillaShake\inventory\HopperInventory;
 use pocketmine\entity\object\ItemEntity;
@@ -112,9 +113,12 @@ class Hopper extends Spawnable implements InventoryHolder, Container, Nameable {
     public function getInventory(){
         return $this->inventory;
     }
+private int $ticc = 0;
 
     public function onUpdate(): bool{
-        if((Server::getInstance()->getTick() % 8) == 0){
+        $this->ticc++;
+        if ($this->ticc > Loader::getInstance()->hopperTickDiff and Loader::getInstance()->hoppersRunning) {
+            $this->ticc = 0;
             if(!($this->getBlock() instanceof HopperBlock)){
                 return false;
             }

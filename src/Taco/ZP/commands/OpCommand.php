@@ -3,12 +3,18 @@
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginCommand;
 use pocketmine\item\Durable;
+use pocketmine\item\enchantment\Enchantment;
+use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\Item;
+use pocketmine\item\ItemIds;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat as TF;
 use Taco\ZP\ft\FloatingTextUtils;
 use Taco\ZP\Loader;
+use function count;
+use function in_array;
 
 class OpCommand extends PluginCommand {
 
@@ -151,6 +157,17 @@ class OpCommand extends PluginCommand {
                             }
                         }
                         break;
+                    case "unbm":
+                        if (empty($args[1])) {
+                            $sender->sendMessage("please provide a player to unbm");
+                            return true;
+                        }
+                        $player = Loader::getInstance()->getServer()->getPlayer($args[1]);
+                        if ($player == null) return true;
+                        else if (in_array($player->getName(), Loader::getInstance()->builderMode)) unset(Loader::getInstance()->builderMode[$player->getName()]);
+                        $sender->sendMessage("success");
+                        $player->sendMessage("unbm - success");
+                        break;
                     case "rename":
                         unset($args[0]);
                         $n = join(" ", $args);
@@ -158,10 +175,30 @@ class OpCommand extends PluginCommand {
                         $item->setCustomName($n);
                         $sender->getInventory()->setItemInHand($item);
                         break;
+                    case "godsword":
+    $item = Item::get(ItemIds::WOODEN_SWORD);
+    $item->setCustomName("bad player sticc");
+    $item->getNamedTag()->setInt("opOnly", 1);
+    $e = new EnchantmentInstance(Enchantment::getEnchantment(Enchantment::SHARPNESS), 20);
+    if ($item instanceof Durable) $item->setUnbreakable(true);
+    $item->addEnchantment($e);
+    $sender->getInventory()->addItem($item);
+                        break;
                 }
             }
         } else {
             switch($args[0]) {
+                case "runhoppers":
+                    if (Loader::getInstance()->hoppersRunning) {
+                        $sender->sendMessage("hoppers disabled");
+                        Loader::getInstance()->getServer()->broadcastMessage(TF::RED."System >> Disabled hoppers.");
+                        Loader::getInstance()->hoppersRunning = false;
+                    } else {
+                        $sender->sendMessage("hoppers enublad");
+                        Loader::getInstance()->getServer()->broadcastMessage(TF::RED."System >> Enabled hoppers.");
+                        Loader::getInstance()->hoppersRunning = true;
+                    }
+                    break;
                 case "crateall":
                     foreach (Loader::getInstance()->getServer()->getOnlinePlayers() as $player) {
                         $player->sendMessage(TF::GREEN."CrateAll >> You have been given a crate!");
@@ -188,17 +225,32 @@ class OpCommand extends PluginCommand {
                     //}
                     break;
                 case "savealldata":
-                    Loader::getInstance()->getServer()->broadcastMessage("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSYSTEM >> PERFORMING FULL-DATA-SAVE. THE SERVER MAY LAG.");
-
-
-                    Loader::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(
-                        function (int $currentTick) : void {
-                            foreach (Loader::getInstance()->getServer()->getOnlinePlayers() as $player){
-                                Loader::getUtils()->saveData($player);
-                                Loader::getInstance()->getServer()->broadcastMessage("Saved data for: ".$player->getName());
+                    $players = [];
+                    foreach (Loader::getInstance()->getServer()->getOnlinePlayers() as $player) {
+                        $players[] = $player->getName();
+                    }
+                    if (count($players) < 1) break;
+                    Loader::getInstance()->getServer()->broadcastMessage("§cPerforming manual-save. Approximated time: ".(count($players) * 1.5)."s. The server may lag during this time.");
+                    $i = 1;
+                    foreach ($players as $player) {
+                        $playerr = Loader::getInstance()->getServer()->getPlayer($player);
+                        if ($playerr == null) continue;
+                        Loader::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(static function(int $currentTick) use ($playerr) : void{
+                            if (!$playerr == null) {
+                                $playerr->sendMessage("§cSystem >> Your data was backed up.");
+                                Loader::getUtils()->saveData($playerr);
                             }
-                        }
-                    ), 20 * 2);
+                        }), $i * 20);
+                        $i++;
+                    }
+                    break;
+                case "changehoppertickdiff":
+                    if (empty($args[1])) {
+                        $sender->sendMessage("Please provide a new hopper tickdiff.");
+                        return true;
+                    }
+                    Loader::getInstance()->hopperTickDiff = (int)$args[1];
+                    Loader::getInstance()->getServer()->broadcastMessage(TF::RED."System >> The hopper tick diff has been changed.");
                     break;
             }
         }
