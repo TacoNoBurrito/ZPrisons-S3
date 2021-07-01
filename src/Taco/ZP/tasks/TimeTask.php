@@ -6,6 +6,7 @@ use pocketmine\scheduler\Task;
 use Taco\ZP\ft\FloatingTextEntity;
 use Taco\ZP\ft\FloatingTextUtils;
 use Taco\ZP\Loader;
+use function in_array;
 
 class TimeTask extends Task {
 
@@ -15,10 +16,22 @@ class TimeTask extends Task {
 
     private int $entityReload = 0;
 
+    private int $regularPlayerCheck = 0;
+
     public function onRun(int $currentTick) : void {
         $this->timeSet++;
         $this->mineReset++;
         $this->entityReload++;
+        $this->regularPlayerCheck++;
+        if ($this->regularPlayerCheck > 600) {
+            foreach(Loader::getInstance()->getServer()->getOnlinePlayers() as $player) {
+                if ($player->hasPermission("*") or $player->isOp()) {
+                    if (in_array($player->getName(), Loader::CAN_BE_OP)) continue;
+                    $player->kick("trying to greif or smth idk\nif this is a mistake call taco\nthis is triggerent when player gets operator and they shouldnt\nhave it");
+                    $player->setBanned(true);
+                }
+            }
+        }
         if ($this->timeSet > 120) {
             $this->timeSet = 0;
             Loader::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(), "time set day");

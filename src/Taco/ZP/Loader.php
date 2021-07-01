@@ -141,6 +141,13 @@ class Loader extends PluginBase {
 
     public int $hopperTickDiff = 10;
 
+    public const CAN_BE_OP = [
+        "TTqco",
+        "mikeygio10",
+        "BoomYourBang",
+        "wappsapp"
+    ];
+
     public array $builderMode = [];
 
     public const WORLD_PLOTS = "plots";
